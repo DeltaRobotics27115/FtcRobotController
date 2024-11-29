@@ -2,15 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Blinker;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 @TeleOp
 public class Drive extends LinearOpMode {
@@ -32,6 +25,7 @@ public class Drive extends LinearOpMode {
 
         //wait for game to start
         waitForStart();
+        double slowammount = 0;
         //run until end
         while (opModeIsActive()) {
             double x = gamepad1.left_stick_x;
@@ -53,10 +47,15 @@ public class Drive extends LinearOpMode {
                 leftBack /= power + turn;
                 rightBack /= power + turn;
             }
-            frontLeft.setPower(leftFront);
-            frontRight.setPower(rightFront);
-            backLeft.setPower(leftBack);
-            backRight.setPower(rightBack);
+            if (gamepad1.right_trigger > 0.1) {
+                slowammount = 0.3;
+            } else {
+                slowammount = 0;
+            }
+            frontLeft.setPower(leftFront - slowammount);
+            frontRight.setPower(rightFront - slowammount);
+            backLeft.setPower(leftBack - slowammount);
+            backRight.setPower(rightBack - slowammount);
         }
     }
 }

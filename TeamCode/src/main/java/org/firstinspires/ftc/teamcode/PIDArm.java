@@ -100,7 +100,7 @@ public class PIDArm extends LinearOpMode {
         arm.setPower(0);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     // function to init extend
@@ -110,7 +110,7 @@ public class PIDArm extends LinearOpMode {
         extend.setPower(0);
         extend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        extend.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        extend.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     // function for pid control for arm

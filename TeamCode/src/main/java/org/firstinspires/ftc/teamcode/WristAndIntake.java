@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.Blinker;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -14,7 +12,6 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp
 public class WristAndIntake extends LinearOpMode {
-    public Blinker control_Hub;
     public Servo wrist;
     public CRServo intake;
 
@@ -22,7 +19,6 @@ public class WristAndIntake extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        control_Hub = hardwareMap.get(Blinker.class, "Control Hub");
         wrist = hardwareMap.get(Servo.class, "Wrist");
         intake = hardwareMap.get(CRServo.class, "Intake");
         telemetry.addData("Status", "Initialized");

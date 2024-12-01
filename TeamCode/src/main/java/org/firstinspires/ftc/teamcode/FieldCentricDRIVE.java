@@ -27,6 +27,7 @@ public class FieldCentricDRIVE extends LinearOpMode {
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         //wait for game to start
         waitForStart();
+        double slowAmount = 0;
         //declare IMU
         imu = hardwareMap.get(BHI260IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(
@@ -62,11 +63,17 @@ public class FieldCentricDRIVE extends LinearOpMode {
                 leftBack /= power + turn;
                 rightBack /= power + turn;
             }
+            //slow mode
+            if (gamepad1.right_trigger > 0.1 && leftFront > 0.1) {
+                slowAmount = 0.3;
+            } else {
+                slowAmount = 0;
+            }
             //run
-            frontLeft.setPower(leftFront);
-            frontRight.setPower(rightFront);
-            backLeft.setPower(leftBack);
-            backRight.setPower(rightBack);
+            frontLeft.setPower(leftFront - slowAmount);
+            frontRight.setPower(rightFront - slowAmount);
+            backLeft.setPower(leftBack - slowAmount);
+            backRight.setPower(rightBack - slowAmount);
         }
     }
 }

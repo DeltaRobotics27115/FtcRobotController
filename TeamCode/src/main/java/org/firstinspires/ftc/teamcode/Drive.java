@@ -15,12 +15,12 @@ public class Drive extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotor.class, "FrontRight");
         backLeft = hardwareMap.get(DcMotor.class, "BackLeft");
         backRight = hardwareMap.get(DcMotor.class, "BackRight");
-        //wait for game to start
-        waitForStart();
-        double slowAmount = 0;
         //reverse direction
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
+        //wait for game to start
+        waitForStart();
+        double slowAmount = 0;
         //run until end
         while (opModeIsActive()) {
             //inputs
@@ -47,7 +47,7 @@ public class Drive extends LinearOpMode {
                 rightBack /= power + turn;
             }
             //slow mode
-            if (gamepad1.right_trigger > 0.1) {
+            if (gamepad1.right_trigger > 0.1 && leftFront > 0.1) {
                 slowAmount = 0.3;
             } else {
                 slowAmount = 0;

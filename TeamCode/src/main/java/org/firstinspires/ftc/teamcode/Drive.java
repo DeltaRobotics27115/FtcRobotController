@@ -23,7 +23,7 @@ public class Drive extends LinearOpMode {
 
         //wait for game to start
         waitForStart();
-        double slowammount = 0;
+        double slowAmount = 0;
         frontRight.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
         //run until end
@@ -53,15 +53,15 @@ public class Drive extends LinearOpMode {
             }
             //slow mode
             if (gamepad1.right_trigger > 0.1) {
-                slowammount = 0.3;
+                slowAmount = 0.3;
             } else {
-                slowammount = 0;
+                slowAmount = 0;
             }
             //run
-            frontLeft.setPower(leftFront - slowammount);
-            frontRight.setPower(rightFront - slowammount);
-            backLeft.setPower(leftBack - slowammount);
-            backRight.setPower(rightBack - slowammount);
+            frontLeft.setPower(leftFront - slowAmount);
+            frontRight.setPower(rightFront - slowAmount);
+            backLeft.setPower(leftBack - slowAmount);
+            backRight.setPower(rightBack - slowAmount);
         }
     }
 }

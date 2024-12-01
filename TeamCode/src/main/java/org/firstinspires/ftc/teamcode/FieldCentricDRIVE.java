@@ -18,13 +18,13 @@ public class FieldCentricDRIVE extends LinearOpMode {
     @Override
     public void runOpMode() {
         //declare motors
-        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
-        backRight = hardwareMap.get(DcMotor.class, "backRight");
+        frontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
+        frontRight = hardwareMap.get(DcMotor.class, "FrontRight");
+        backLeft = hardwareMap.get(DcMotor.class, "BackLeft");
+        backRight = hardwareMap.get(DcMotor.class, "BackRight");
         //reverse direction
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
         //wait for game to start
         waitForStart();
         //declare IMU

@@ -6,24 +6,21 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp
 public class Drive extends LinearOpMode {
-
+    //find motors
     public DcMotor frontLeft, frontRight, backLeft, backRight;
-
-
     @Override
     public void runOpMode() {
-        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
-        backRight = hardwareMap.get(DcMotor.class, "backRight");
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-
+        //declare motors
+        frontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
+        frontRight = hardwareMap.get(DcMotor.class, "FrontRight");
+        backLeft = hardwareMap.get(DcMotor.class, "BackLeft");
+        backRight = hardwareMap.get(DcMotor.class, "BackRight");
         //wait for game to start
         waitForStart();
         double slowAmount = 0;
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        //reverse direction
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
         //run until end
         while (opModeIsActive()) {
             //inputs

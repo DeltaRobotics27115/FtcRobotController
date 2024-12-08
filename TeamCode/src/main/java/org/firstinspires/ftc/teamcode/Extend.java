@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp()
-public class PIDExtend extends LinearOpMode {
+public class Extend extends LinearOpMode {
     // ****** Extend variables ******
     // extend motor
     private DcMotorEx extend;

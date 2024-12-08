@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp
-public class WristAndIntake extends LinearOpMode {
+public class Intake extends LinearOpMode {
     public CRServo intake;
 
     @Override

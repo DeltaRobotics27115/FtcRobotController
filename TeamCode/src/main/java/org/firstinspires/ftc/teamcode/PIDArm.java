@@ -12,9 +12,9 @@ public class PIDArm extends LinearOpMode {
     // Arm motor
     private DcMotorEx arm;
     // PID coefficients for arm
-    private final double kPArm = 0.02; // adjust
-    private final double kIArm = 0; // adjust
-    private final double kDArm = 0; // adjust
+    private final double kPArm = 0.03; // adjust
+    private final double kIArm = 0.02; // adjust
+    private final double kDArm = 0.00; // adjust
     // Last error for arm PID
     private double lastErrorArm = 0;
     // Integral error for arm PID
@@ -33,8 +33,8 @@ public class PIDArm extends LinearOpMode {
     private DcMotorEx extend;
     // PID coefficients for extend
     private final double kPExtend = 0.01; // adjust
-    private final double kIExtend = 0; // adjust
-    private final double kDExtend = 0; // adjust
+    private final double kIExtend = 0.00; // adjust
+    private final double kDExtend = 0.00; // adjust
     // Extend target position
     private static double extendTargetPos = 0; // adjust
     // Max extend length

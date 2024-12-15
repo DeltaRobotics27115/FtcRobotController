@@ -107,7 +107,7 @@ public class PIDArm extends LinearOpMode {
     // function to init arm
     public void initArm() {
         arm = hardwareMap.get(DcMotorEx.class, "Arm"); // change device name
-        arm.setDirection(DcMotor.Direction.REVERSE);
+        arm.setDirection(DcMotor.Direction.FORWARD);
         arm.setPower(0);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -118,7 +118,7 @@ public class PIDArm extends LinearOpMode {
     // function to init extend
     public void initExtend() {
         extend = hardwareMap.get(DcMotorEx.class, "Extend"); // change device name
-        extend.setDirection(DcMotor.Direction.REVERSE);
+        extend.setDirection(DcMotor.Direction.FORWARD);
         extend.setPower(0);
         extend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

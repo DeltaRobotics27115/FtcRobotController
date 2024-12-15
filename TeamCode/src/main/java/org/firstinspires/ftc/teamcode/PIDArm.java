@@ -86,8 +86,9 @@ public class PIDArm extends LinearOpMode {
 
             // move arm and extend with joysticks
             extendTargetPos = Math.round(extendTargetPos - sensitivityExtend * gamepad2.right_stick_y);
+		if (extendTargetPos > 450) extendTargetPos = 450;
             scaleFactorArm = 1 - (Math.abs(extendTargetPos) / maxTargetExtend);
-            armTargetPos = Math.round(armTargetPos - sensitivityArmInit * scaleFactorArm * gamepad2.left_stick_y);
+            armTargetPos = Math.round(armTargetPos - sensitivityArmInit * scaleFactorArm * gamepad2.left_stick_y);]
 
 
             // set motor power with PID

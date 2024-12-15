@@ -24,9 +24,9 @@ public class PIDArm extends LinearOpMode {
     // Elapsed time for arm PID
     private ElapsedTime armTimer;
     // Arm target position
-    private static double armTargetPos = -120; // adjust
+    private static double armTargetPos = 0; // adjust
     // Arm initial sensitivity
-    private double sensitivityArm = 3.0; // adjust
+    private double sensitivityArmInit = 5.0; // adjust
     // Arm sensitivity scale factor associated to the current extend status
     private double scaleFactorArm = 1;
 
@@ -43,7 +43,7 @@ public class PIDArm extends LinearOpMode {
     // Max extend length
     private double maxTargetExtend = 5000; // adjust
     // Extend sensitivity
-    private double sensitivityExtend = 5.0; // adjust
+    private double sensitivityExtendInit = 5.0; // adjust
     // Last error for extend PID
     private double lastErrorExtend = 0;
     // Integral error for extend PID
@@ -72,7 +72,7 @@ public class PIDArm extends LinearOpMode {
             // use buttons to set target positions
             // arm buttons
             if (gamepad2.a) {
-                armTargetPos = -120; // adjust
+                armTargetPos = 0; // adjust
             } else if (gamepad2.y) {
                 armTargetPos = 2000; // adjust
             }
@@ -80,15 +80,15 @@ public class PIDArm extends LinearOpMode {
             if (gamepad2.x) {
                 extendTargetPos = 0; // adjust
             } else if (gamepad2.b) {
-                extendTargetPos = 100; // adjust
+                extendTargetPos = 450; // adjust
             }
 
 
             // move arm and extend with joysticks
-            extendTargetPos = Math.round(extendTargetPos - sensitivityExtend * gamepad2.right_stick_y);
-		if (extendTargetPos > 450) extendTargetPos = 450;
+            extendTargetPos = Math.round(extendTargetPos - sensitivityExtendInit * gamepad2.right_stick_y);
+            if (extendTargetPos > 450) extendTargetPos = 450;
             scaleFactorArm = 1 - (Math.abs(extendTargetPos) / maxTargetExtend);
-            armTargetPos = Math.round(armTargetPos - sensitivityArm * scaleFactorArm * gamepad2.left_stick_y);]
+            armTargetPos = Math.round(armTargetPos - sensitivityArmInit * scaleFactorArm * gamepad2.left_stick_y);
 
 
             // set motor power with PID
@@ -107,7 +107,7 @@ public class PIDArm extends LinearOpMode {
     // function to init arm
     public void initArm() {
         arm = hardwareMap.get(DcMotorEx.class, "Arm"); // change device name
-        arm.setDirection(DcMotor.Direction.REVERSE);
+        arm.setDirection(DcMotor.Direction.FORWARD);
         arm.setPower(0);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -118,7 +118,7 @@ public class PIDArm extends LinearOpMode {
     // function to init extend
     public void initExtend() {
         extend = hardwareMap.get(DcMotorEx.class, "Extend"); // change device name
-        extend.setDirection(DcMotor.Direction.REVERSE);
+        extend.setDirection(DcMotor.Direction.FORWARD);
         extend.setPower(0);
         extend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -165,10 +165,10 @@ public class PIDArm extends LinearOpMode {
         // telemetry
         telemetry.addData("Target For Arm", armTargetPos);
         telemetry.addData("Current Position Of Arm", arm.getCurrentPosition());
-        telemetry.addData("Sensitivity Of Arm", sensitivityArm * scaleFactorArm);
+        telemetry.addData("Sensitivity Of Arm", sensitivityArmInit * scaleFactorArm);
         telemetry.addData("Target For Extend", extendTargetPos);
         telemetry.addData("Current Position Of Extend", extend.getCurrentPosition());
-        telemetry.addData("Sensitivity Of Extend", sensitivityExtend);
+        telemetry.addData("Sensitivity Of Extend", sensitivityExtendInit);
         telemetry.update();
     }
 }

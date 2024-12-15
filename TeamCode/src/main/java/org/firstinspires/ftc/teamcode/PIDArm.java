@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 
 @TeleOp()
 public class PIDArm extends LinearOpMode {
@@ -12,9 +14,9 @@ public class PIDArm extends LinearOpMode {
     // Arm motor
     private DcMotorEx arm;
     // PID coefficients for arm
-    private final double kPArm = 0.03; // adjust
-    private final double kIArm = 0.02; // adjust
-    private final double kDArm = 0.00; // adjust
+    private final double kPArm = 0.02; // adjust
+    private final double kIArm = 0; // adjust
+    private final double kDArm = 0; // adjust
     // Last error for arm PID
     private double lastErrorArm = 0;
     // Integral error for arm PID
@@ -28,13 +30,14 @@ public class PIDArm extends LinearOpMode {
     // Arm sensitivity scale factor associated to the current extend status
     private double scaleFactorArm = 1;
 
+
     // ****** Extend variables ******
     // extend motor
     private DcMotorEx extend;
     // PID coefficients for extend
     private final double kPExtend = 0.01; // adjust
-    private final double kIExtend = 0.00; // adjust
-    private final double kDExtend = 0.00; // adjust
+    private final double kIExtend = 0; // adjust
+    private final double kDExtend = 0; // adjust
     // Extend target position
     private static double extendTargetPos = 0; // adjust
     // Max extend length
@@ -48,6 +51,7 @@ public class PIDArm extends LinearOpMode {
     // Elapsed time for extend PID
     private ElapsedTime extendTimer;
 
+
     @Override
     public void runOpMode() throws InterruptedException {
         // init arm and extend
@@ -56,10 +60,12 @@ public class PIDArm extends LinearOpMode {
         // telemetry
         armAndExtendTelemetry();
 
+
         waitForStart();
         // start timers
         armTimer = new ElapsedTime();
         extendTimer = new ElapsedTime();
+
 
         // TeleOp loop
         while (opModeIsActive()) {
@@ -77,10 +83,12 @@ public class PIDArm extends LinearOpMode {
                 extendTargetPos = 100; // adjust
             }
 
+
             // move arm and extend with joysticks
             extendTargetPos = Math.round(extendTargetPos - sensitivityExtend * gamepad2.right_stick_y);
             scaleFactorArm = 1 - (Math.abs(extendTargetPos) / maxTargetExtend);
             armTargetPos = Math.round(armTargetPos - sensitivityArmInit * scaleFactorArm * gamepad2.left_stick_y);
+
 
             // set motor power with PID
             double power1 = armControl(armTargetPos, arm.getCurrentPosition(), kPArm, kIArm, kDArm);
@@ -88,10 +96,12 @@ public class PIDArm extends LinearOpMode {
             arm.setPower(power1);
             extend.setPower(power2);
 
+
             // telemetry
             armAndExtendTelemetry();
         }
     }
+
 
     // function to init arm
     public void initArm() {
@@ -103,6 +113,7 @@ public class PIDArm extends LinearOpMode {
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
+
     // function to init extend
     public void initExtend() {
         extend = hardwareMap.get(DcMotorEx.class, "Extend"); // change device name
@@ -112,6 +123,7 @@ public class PIDArm extends LinearOpMode {
         extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         extend.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
+
 
     // function for pid control for arm
     public double armControl(double target, double curPos, double kP1, double kI1, double kD1) {
@@ -129,6 +141,7 @@ public class PIDArm extends LinearOpMode {
         return kP1 * error1 + kI1 * errorSumArm + kD1 * errorRate1;
     }
 
+
     // function for pid control for extend
     public double extendControl(double target, double curPos, double kP1, double kI1, double kD1) {
         // error
@@ -144,6 +157,7 @@ public class PIDArm extends LinearOpMode {
         // return power
         return kP1 * error1 + kI1 * errorSumExtend + kD1 * errorRate1;
     }
+
 
     // function to display motor status
     public void armAndExtendTelemetry() {

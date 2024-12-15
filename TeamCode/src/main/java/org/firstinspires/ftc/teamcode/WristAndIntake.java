@@ -27,11 +27,13 @@ public class WristAndIntake extends LinearOpMode {
                 while (gamepad2.left_trigger > 0.2) {
                     wristcurrentposition = wristcurrentposition + 0.05;
                     telemetry.addData("Wrist current position", wristcurrentposition);
+                    sleep(250)
                 }
-            } else if (gamepad2.right_trigger > 0.2) {
+            } if (gamepad2.right_trigger > 0.2) {
                 while (gamepad2.right_trigger > 0.2) {
                     wristcurrentposition = wristcurrentposition - 0.05;
                     telemetry.addData("Wrist current position", wristcurrentposition);
+                    sleep(250)
                 }
             }
             

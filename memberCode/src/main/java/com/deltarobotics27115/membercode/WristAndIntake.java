@@ -1,4 +1,5 @@
-package org.firstinspires.ftc.teamcode;
+
+package com.deltarobotics27115.membercode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -27,13 +28,13 @@ public class WristAndIntake extends LinearOpMode {
                 while (gamepad2.left_trigger > 0.2) {
                     wristcurrentposition = wristcurrentposition + 0.05;
                     telemetry.addData("Wrist current position", wristcurrentposition);
-                    sleep(250)
+                    //sleep(250);
                 }
             } if (gamepad2.right_trigger > 0.2) {
                 while (gamepad2.right_trigger > 0.2) {
                     wristcurrentposition = wristcurrentposition - 0.05;
                     telemetry.addData("Wrist current position", wristcurrentposition);
-                    sleep(250)
+                    //sleep(250);
                 }
             }
             
@@ -57,3 +58,5 @@ public class WristAndIntake extends LinearOpMode {
         }
     }
 }
+
+

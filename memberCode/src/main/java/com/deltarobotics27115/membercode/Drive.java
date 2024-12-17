@@ -1,4 +1,5 @@
-package org.firstinspires.ftc.teamcode;
+
+package com.deltarobotics27115.membercode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -8,17 +9,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class Drive extends LinearOpMode {
     //find motors
     public DcMotor frontLeft, frontRight, backLeft, backRight;
-    @Override
+   @Override
     public void runOpMode() {
         //declare motors
-        frontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
+       frontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "FrontRight");
         backLeft = hardwareMap.get(DcMotor.class, "BackLeft");
         backRight = hardwareMap.get(DcMotor.class, "BackRight");
         //reverse direction
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
-        //wait for game to start
+       //wait for game to start
         waitForStart();
         double slowAmount = 0;
         //run until end

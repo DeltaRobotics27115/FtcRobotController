@@ -11,75 +11,82 @@ import org.firstinspires.ftc.teamcode.output.DrivePower;
 import org.firstinspires.ftc.teamcode.output.WristAndIntakePower;
 
 /**
- *
+ * This is the main TeleOp OpMode for the robot.
+ * It controls the robot's movements and actions based on gamepad input.
  */
 @TeleOp
 public class MainTeleOp extends LinearOpMode {
-    public FieldCentricDriveControl fieldCentricDrive;
-    public WristAndIntakeControl wristAndIntake;
-    public ArmAndExtendControl armAndExtend;
 
+    private FieldCentricDriveControl fieldCentricDrive;
+    private WristAndIntakeControl wristAndIntake;
+    private ArmAndExtendControl armAndExtend;
+
+    private static final double SLOW_MODE_TRIGGER_THRESHOLD = 0.1; // Define slow mode trigger threshold
+    private static final double ARM_TARGET_POS_LOW = 0; // Define arm target positions
+    private static final double ARM_TARGET_POS_HIGH = 2000;
+    private static final double EXTEND_TARGET_POS_LOW = 0; // Define extend target positions
+    private static final double EXTEND_TARGET_POS_HIGH = 450;
+
+    /**
+     * Runs the OpMode.
+     * Initializes hardware, waits for start, and then continuously updates robot actions based on gamepad input.
+     *
+     * @throws InterruptedException If the OpMode is interrupted.
+     */
     @Override
     public void runOpMode() throws InterruptedException {
-        // Initialize FieldCentricDrive
+        // Initialize hardware components
         fieldCentricDrive = new FieldCentricDriveControl(hardwareMap);
-        // Initialize WristAndIntake
         wristAndIntake = new WristAndIntakeControl(hardwareMap);
-        // Initialize ArmAndExtendControl
         armAndExtend = new ArmAndExtendControl(hardwareMap);
-        waitForStart();
-        armAndExtend.startArmTimer();
-        fieldCentricDrive.resetImu();//Reset IMU at start
+
+        waitForStart(); // Wait for the OpMode to start
+
+        armAndExtend.startTimer(); // Start the timer for arm and extend control
+        fieldCentricDrive.resetImu(); // Reset the IMU at the start
+
+        // Main loop
         while (opModeIsActive()) {
+            // Get gamepad input for drive control
             double x = gamepad1.left_stick_x;
-            double y = -gamepad1.left_stick_y;
+            double y = -gamepad1.left_stick_y; // Inverted y-axis for intuitive control
             double turn = gamepad1.right_stick_x;
-            double slowAmount = (x != 0 || y != 0 || turn != 0) ?
-                    (gamepad1.right_trigger > 0.1 ? 0.3 : 0) : 0;
-            telemetry.addData(
-                    "X", x
-            );
-            telemetry.addData(
-                    "Y", y
-            );
-            telemetry.addData(
-                    "Turn", turn
-            );
-            telemetry.addData(
-                    "SlowAmount", slowAmount
-            );
-            telemetry.addData(
-                    "Right_trigger", gamepad1.right_trigger
-            );
 
+            // Calculate slow mode amount based on right trigger
+            double slowAmount = (x != 0 || y != 0 || turn != 0)
+                    ? (gamepad1.right_trigger > SLOW_MODE_TRIGGER_THRESHOLD ? 0.3 : 0)
+                    : 0;
 
-            // Use the FieldCentricDrive object to drive
+            // Drive the robot using field-centric control
             DrivePower drivePower = fieldCentricDrive.driveFieldCentric(x, y, turn, slowAmount);
+
+            // Update wrist and intake based on gamepad2 input
+            WristAndIntakePower wristAndIntakePower = wristAndIntake.update(
+                    gamepad2.left_trigger, gamepad2.right_trigger,
+                    gamepad2.left_bumper, gamepad2.right_bumper);
+
+            // Update arm and extend target positions based on gamepad2 buttons
+            if (gamepad2.a) {
+                armAndExtend.armTargetPos = ARM_TARGET_POS_LOW;
+            } else if (gamepad2.y) {
+                armAndExtend.armTargetPos = ARM_TARGET_POS_HIGH;
+            }
+            if (gamepad2.x) {
+                armAndExtend.extendTargetPos = EXTEND_TARGET_POS_LOW;
+            } else if (gamepad2.b) {
+                armAndExtend.extendTargetPos = EXTEND_TARGET_POS_HIGH;
+            }
+
+            // Update arm and extend motor powers
+            ArmAndExtendPower armAndExtendPower = armAndExtend.update(gamepad2.left_stick_y, gamepad2.right_stick_y);
+
+            // Send telemetry data to the driver station
             telemetry.addData("Left Front Power", drivePower.leftFront);
             telemetry.addData("Right Front Power", drivePower.rightFront);
             telemetry.addData("Left Back Power", drivePower.leftBack);
             telemetry.addData("Right Back Power", drivePower.rightBack);
-
-            // Use the WristAndIntake object to update wrist and intake
-            WristAndIntakePower wristAndIntakePower = wristAndIntake.update(gamepad2.left_trigger, gamepad2.right_trigger,
-                    gamepad2.left_bumper, gamepad2.right_bumper);
             telemetry.addData("Wrist Power", wristAndIntakePower.wristPower);
             telemetry.addData("Intake Power", wristAndIntakePower.intakePower);
-            // Use the ArmAndExtendControl object to update arm and extend
-            // use buttons to set target positions
-            // arm buttons
-            if (gamepad2.a) {
-                armAndExtend.armTargetPos = 0; // adjust
-            } else if (gamepad2.y) {
-                armAndExtend.armTargetPos = 2000; // adjust
-            }
-            // extend buttons
-            if (gamepad2.x) {
-                armAndExtend.extendTargetPos = 0; // adjust
-            } else if (gamepad2.b) {
-                armAndExtend.extendTargetPos = 450; // adjust
-            }
-            ArmAndExtendPower armAndExtendPower = armAndExtend.update(gamepad2.left_stick_y, gamepad2.right_stick_y);
             telemetry.addData("Target For Arm", armAndExtendPower.armTargetPos);
             telemetry.addData("Current Position Of Arm", armAndExtendPower.armPosition);
             telemetry.addData("Sensitivity Of Arm", armAndExtendPower.sensitivityArmInit * armAndExtendPower.scaleFactorArm);
@@ -88,7 +95,5 @@ public class MainTeleOp extends LinearOpMode {
             telemetry.addData("Sensitivity Of Extend", armAndExtendPower.sensitivityExtendInit);
             telemetry.update();
         }
-
-
     }
 }

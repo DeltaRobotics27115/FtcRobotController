@@ -46,6 +46,8 @@ public class WristAndIntakeControl {
             wristPosition += WRIST_INCREMENT;
         } else if (rightTrigger > TRIGGER_THRESHOLD) {
             wristPosition -= WRIST_INCREMENT;
+        } else{
+            wrist.setPower(0);
         }
         // Clamp wrist position to valid range
         wristPosition = Math.max(0.0, Math.min(1.0, wristPosition));

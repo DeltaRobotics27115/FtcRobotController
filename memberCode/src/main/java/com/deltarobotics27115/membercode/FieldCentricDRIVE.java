@@ -29,18 +29,23 @@ public class FieldCentricDRIVE extends LinearOpMode {
         //wait for game to start
         waitForStart();
         double slowAmount = 0;
-        //declare IMU
-        imu = hardwareMap.get(BHI260IMU.class, "imu");
+        //setup IMU
         IMU.Parameters parameters = new IMU.Parameters(
                 new RevHubOrientationOnRobot(
                         RevHubOrientationOnRobot.LogoFacingDirection.UP,
                         RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
+        parameters.angleUnit = BHI260IMU.AngleUnit.DEGREES;
+        parameters.mode = BHI260IMU.SensorMode.IMU;
+        parameters.accelUnit = BHI260IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        //declare IMU
+        imu = hardwareMap.get(BHI260IMU.class, "imu");
         imu.initialize(parameters);
-        imu.resetYaw();
+        //calculate IMU variables
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC,
+        AxesOrder.ZYX, AngleUnit.DEGREES);
+        initYaw = angles.firstAngle;
         //run until end
         while (opModeIsActive()) {
-            //get IMU
-            double heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
             //inputs
             double x = gamepad1.left_stick_x;
             double y = -gamepad1.left_stick_y;

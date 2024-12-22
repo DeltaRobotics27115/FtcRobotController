@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp
-public class FieldCentricDRIVE extends LinearOpMode {
+public class FieldCentric extends LinearOpMode {
     //find motors
     public DcMotor frontLeft, frontRight, backLeft, backRight;
     //find IMU

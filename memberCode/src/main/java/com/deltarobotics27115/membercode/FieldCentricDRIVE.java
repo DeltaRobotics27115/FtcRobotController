@@ -60,9 +60,9 @@ public class FieldCentricDRIVE extends LinearOpMode {
             //cut power to 1
             if ((power + Math.abs(turn)) > 1) {
                 leftFront /= power + turn;
-                rightFront /= power + turn;
+                rightFront /= power - turn;
                 leftBack /= power + turn;
-                rightBack /= power + turn;
+                rightBack /= power - turn;
             }
             //slow mode
             if (gamepad1.right_trigger > 0.1 && leftFront > 0.1) {

@@ -46,15 +46,21 @@ public class FieldCentricDRIVE extends LinearOpMode {
         initYaw = angles.firstAngle;
         //run until end
         while (opModeIsActive()) {
+            //more IMU calculation
+            angles=imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX,AngleUnit.DEGREES);
+            adjustedYaw = angles.firstAngle-initYaw;
+            double zerodYaw = -initYaw+angles.firstAngle;
             //inputs
             double x = gamepad1.left_stick_x;
             double y = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
             //angle calculation
             double theta = Math.atan2(y, x);
+            double realTheta;
+            realTheta = (360 - zerodYaw) + theta;
             double power = Math.hypot(x, y);
-            double sin = Math.sin(theta - Math.PI/4);
-            double cos = Math.cos(theta - Math.PI/4);
+            double sin = Math.sin(realTheta - Math.PI/4);
+            double cos = Math.cos(realTheta - Math.PI/4);
             double max = Math.max(Math.abs(sin),
                     Math.abs(cos));
             //power calculation

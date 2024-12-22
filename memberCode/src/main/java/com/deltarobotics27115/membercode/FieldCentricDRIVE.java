@@ -53,10 +53,10 @@ public class FieldCentricDRIVE extends LinearOpMode {
             double max = Math.max(Math.abs(sin),
                     Math.abs(cos));
             //power calculation
-            double leftFront = power * cos/max + turn - heading;
-            double rightFront = power * sin/max - turn - heading;
-            double leftBack = power * sin/max + turn - heading;
-            double rightBack = power * cos/max - turn - heading;
+            double leftFront = power * cos/max + turn;
+            double rightFront = power * sin/max - turn;
+            double leftBack = power * sin/max + turn;
+            double rightBack = power * cos/max - turn;
             //cut power to 1
             if ((power + Math.abs(turn)) > 1) {
                 leftFront /= power + turn;

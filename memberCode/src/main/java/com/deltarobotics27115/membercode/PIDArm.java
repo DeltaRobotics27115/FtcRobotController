@@ -1,5 +1,4 @@
-
-package com.deltarobotics27115.membercode;
+package org.firstinspires.ftc.teamcode;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -15,8 +14,8 @@ public class PIDArm extends LinearOpMode {
     // Arm motor
     private DcMotorEx arm;
     // PID coefficients for arm
-    private final double kPArm = 0.02; // adjust
-    private final double kIArm = 0; // adjust
+    private final double kPArm = 0.03; // adjust
+    private final double kIArm = 0.01; // adjust
     private final double kDArm = 0; // adjust
     // Last error for arm PID
     private double lastErrorArm = 0;
@@ -27,7 +26,7 @@ public class PIDArm extends LinearOpMode {
     // Arm target position
     private static double armTargetPos = 0; // adjust
     // Arm initial sensitivity
-    private double sensitivityArmInit = 5.0; // adjust
+    private double sensitivityArmInit = 20.0; // adjust
     // Arm sensitivity scale factor associated to the current extend status
     private double scaleFactorArm = 1;
 
@@ -36,15 +35,15 @@ public class PIDArm extends LinearOpMode {
     // extend motor
     private DcMotorEx extend;
     // PID coefficients for extend
-    private final double kPExtend = 0.01; // adjust
-    private final double kIExtend = 0; // adjust
+    private final double kPExtend = 0.02; // adjust
+    private final double kIExtend = 0.04; // adjust
     private final double kDExtend = 0; // adjust
     // Extend target position
     private static double extendTargetPos = 0; // adjust
     // Max extend length
     private double maxTargetExtend = 5000; // adjust
     // Extend sensitivity
-    private double sensitivityExtendInit = 5.0; // adjust
+    private double sensitivityExtendInit = 20.0; // adjust
     // Last error for extend PID
     private double lastErrorExtend = 0;
     // Integral error for extend PID
@@ -81,13 +80,13 @@ public class PIDArm extends LinearOpMode {
             if (gamepad2.x) {
                 extendTargetPos = 0; // adjust
             } else if (gamepad2.b) {
-                extendTargetPos = 450; // adjust
+                extendTargetPos = 1800; // adjust
             }
 
 
             // move arm and extend with joysticks
             extendTargetPos = Math.round(extendTargetPos - sensitivityExtendInit * gamepad2.right_stick_y);
-            if (extendTargetPos > 450) extendTargetPos = 450;
+            if (extendTargetPos > 1800) extendTargetPos = 1800;
             scaleFactorArm = 1 - (Math.abs(extendTargetPos) / maxTargetExtend);
             armTargetPos = Math.round(armTargetPos - sensitivityArmInit * scaleFactorArm * gamepad2.left_stick_y);
 
@@ -119,7 +118,7 @@ public class PIDArm extends LinearOpMode {
     // function to init extend
     public void initExtend() {
         extend = hardwareMap.get(DcMotorEx.class, "Extend"); // change device name
-        extend.setDirection(DcMotor.Direction.FORWARD);
+        extend.setDirection(DcMotor.Direction.REVERSE);
         extend.setPower(0);
         extend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -173,5 +172,3 @@ public class PIDArm extends LinearOpMode {
         telemetry.update();
     }
 }
-
-

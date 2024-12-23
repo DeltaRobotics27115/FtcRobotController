@@ -17,6 +17,9 @@ public class FieldCentric extends LinearOpMode {
     public DcMotor frontLeft, frontRight, backLeft, backRight;
     //find IMU
     BHI260IMU imu;
+    Orientation angles = new Orientation();
+    double initYaw;
+    double adjustedYaw;
     @Override
     public void runOpMode() {
         //declare motors

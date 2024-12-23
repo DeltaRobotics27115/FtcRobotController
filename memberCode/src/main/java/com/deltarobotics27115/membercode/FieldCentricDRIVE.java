@@ -76,10 +76,10 @@ public class FieldCentricDRIVE extends LinearOpMode {
                 slowAmount = 0;
             }
             //run
-            frontLeft.setPower(leftFront - slowAmount);
-            frontRight.setPower(rightFront - slowAmount);
-            backLeft.setPower(leftBack - slowAmount);
-            backRight.setPower(rightBack - slowAmount);
+            frontLeft.setPower(leftFront / slowAmount);
+            frontRight.setPower(rightFront / slowAmount);
+            backLeft.setPower(leftBack / slowAmount);
+            backRight.setPower(rightBack / slowAmount);
         }
     }
 }

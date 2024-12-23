@@ -1,3 +1,4 @@
+/*
 
 package com.deltarobotics27115.membercode;
 
@@ -8,7 +9,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp
 public class Drive extends LinearOpMode {
     //find motors
-    public DcMotor frontLeft, frontRight, backLeft, backRight;
+    public DcMotor frontLeft, frontRight, backLeft, backRight;*/
+/**//*
+
    @Override
     public void runOpMode() {
         //declare motors
@@ -61,3 +64,4 @@ public class Drive extends LinearOpMode {
         }
     }
 }
+*/

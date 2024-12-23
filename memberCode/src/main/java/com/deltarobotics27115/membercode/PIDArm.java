@@ -130,7 +130,7 @@ public class PIDArm extends LinearOpMode {
     // function for pid control for arm
     public double armControl(double target, double curPos, double kP1, double kI1, double kD1) {
         // error
-        double error1 = target - curPos;
+        double error1 = max(target - curPos, 0);
         // integral error
         errorSumArm += error1 * armTimer.seconds();
         // derivative
@@ -147,7 +147,7 @@ public class PIDArm extends LinearOpMode {
     // function for pid control for extend
     public double extendControl(double target, double curPos, double kP1, double kI1, double kD1) {
         // error
-        double error1 = target - curPos;
+        double error1 = max(target - curPos, 0);
         // integral error
         errorSumExtend += error1 * extendTimer.seconds();
         // derivative

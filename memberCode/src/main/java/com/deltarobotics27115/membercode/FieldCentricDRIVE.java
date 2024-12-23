@@ -1,4 +1,3 @@
-/*
 
 package com.deltarobotics27115.membercode;
 
@@ -12,14 +11,11 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp
-public class FieldCentric extends LinearOpMode {
+public class FieldCentricDRIVE extends LinearOpMode {
     //find motors
     public DcMotor frontLeft, frontRight, backLeft, backRight;
     //find IMU
     BHI260IMU imu;
-    Orientation angles = new Orientation();
-    double initYaw;
-    double adjustedYaw;
     @Override
     public void runOpMode() {
         //declare motors
@@ -32,28 +28,22 @@ public class FieldCentric extends LinearOpMode {
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         //wait for game to start
         waitForStart();
-        double slowAmount = 0;
+        double slowAmount;
         //setup IMU
         IMU.Parameters parameters = new IMU.Parameters(
                 new RevHubOrientationOnRobot(
                         RevHubOrientationOnRobot.LogoFacingDirection.UP,
                         RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
-        parameters.angleUnit = BHI260IMU.AngleUnit.DEGREES;
-        parameters.mode = BHI260IMU.SensorMode.IMU;
-        parameters.accelUnit = BHI260IMU.AccelUnit.METERS_PERSEC_PERSEC;
         //declare IMU
         imu = hardwareMap.get(BHI260IMU.class, "imu");
         imu.initialize(parameters);
-        //calculate IMU variables
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC,
-        AxesOrder.ZYX, AngleUnit.DEGREES);
-        initYaw = angles.firstAngle;
+        imu.resetYaw();
+        double startHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         //run until end
         while (opModeIsActive()) {
-            //more IMU calculation
-            angles=imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX,AngleUnit.DEGREES);
-            adjustedYaw = angles.firstAngle-initYaw;
-            double zerodYaw = -initYaw+angles.firstAngle;
+            //calculate IMU variables
+            double currentHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            double zerodYaw = -startHeading+currentHeading;
             //inputs
             double x = gamepad1.left_stick_x;
             double y = -gamepad1.left_stick_y;
@@ -95,4 +85,3 @@ public class FieldCentric extends LinearOpMode {
 }
 
 
-*/

@@ -31,7 +31,17 @@ public class Autonomous extends LinearOpMode {
                 rightBackValue = 1;
             }
             //Go right until wall
+            if (time > 500 && time < 2000) {
+                leftBackValue = -1;
+                rightFrontValue = -1;
+            }
             //Go left a little bit
+            if (time > 2000 && time < 2500) {
+                leftFrontValue = -1;
+                leftBackValue = 1;
+                rightFrontValue = 1;
+                rightBackValue = -1;
+            }
             //*******DANIEL CODE THIS PART******
             //Go forward a little
             //Turn right then forward

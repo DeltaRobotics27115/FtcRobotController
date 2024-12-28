@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class PIDController {
 
-    private final double kP; // Proportional gain
-    private final double kI; // Integral gain
-    private final double kD; // Derivative gain
+    private  double kP; // Proportional gain
+    private  double kI; // Integral gain
+    private  double kD; // Derivative gain
 
     private double lastError = 0; // Previous error value
     private double errorSum = 0; // Accumulated error over time
@@ -57,5 +57,10 @@ public class PIDController {
         timer.reset();
 
         return output;
+    }
+    public void setPID(Double kP, Double kI, Double kD){
+        this.kP = kP;
+        this.kI = kI;
+        this.kD = kD;
     }
 }

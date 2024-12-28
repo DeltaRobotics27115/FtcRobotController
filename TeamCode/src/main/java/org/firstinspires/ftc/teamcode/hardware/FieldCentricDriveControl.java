@@ -60,8 +60,8 @@ public class FieldCentricDriveControl {
         double heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
         // Rotate input vector by robot heading to achieve field-centric control
-        double rotatedX = x * Math.cos(heading) - y * Math.sin(heading);
-        double rotatedY = x * Math.sin(heading) + y * Math.cos(heading);
+        double rotatedX = x * Math.cos(heading) + y * Math.sin(heading);
+        double rotatedY = -x * Math.sin(heading) + y * Math.cos(heading);
 
         // Calculate individual motor powers
         double leftFront = rotatedY + rotatedX + turn;

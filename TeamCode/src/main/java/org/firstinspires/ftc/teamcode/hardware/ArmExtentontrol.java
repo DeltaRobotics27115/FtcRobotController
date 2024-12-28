@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode.hardware;
-
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -8,12 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.output.ArmAndExtendPower;
 
-/**
- * This class controls the arm and extension mechanisms of the robot.
- * It uses PID controllers to achieve precise positioning.
- */
-public class ArmAndExtendControl {
-
+public class ArmExtentontrol {
     private PIDController armPID;
     private PIDController extendPID;
 
@@ -31,18 +26,10 @@ public class ArmAndExtendControl {
     private final double maxTargetExtend = 5000; // Pre-calculate constant
     public double sensitivityArmInit = 20.0;
     public double ARM_TARGET_POS_HIGH;
+    public double tick_in_degree =700/360;
 
     public double EXTEND_TARGET_POS_HIGH;
-
-
-    /**
-     * Constructor for ArmAndExtendControl.
-     * Initializes the motors and PID controllers.
-     *
-     * @param hardwareMap The hardware map to access the motors.
-     */
-    public ArmAndExtendControl(HardwareMap hardwareMap) {
-        // Initialize arm motor
+    public ArmExtentontrol(HardwareMap hardwareMap) {
         arm = hardwareMap.get(DcMotorEx.class, "Arm");
         arm.setDirection(DcMotor.Direction.FORWARD);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -57,33 +44,25 @@ public class ArmAndExtendControl {
         extend.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Initialize PID controllers with pre-defined constants
-        armPID = new PIDController(0.01, 0.0, 0);
-        extendPID = new PIDController(0.02, 0.00, 0);
-
+        armPID = new PIDController(0.00, 0.01, 0);
+        extendPID = new PIDController(0.02, 0.04, 0);
 
     }
-    public void init(double ARM_TARGET_POS_HIGH, double EXTEND_TARGET_POS_HIGH) {
+    public void init(double ARM_TARGET_POS_HIGH, double EXTEND_TARGET_POS_HIGH,double kP, double kI, double kD, double kF) {
 
         this.ARM_TARGET_POS_HIGH = ARM_TARGET_POS_HIGH;
         this.EXTEND_TARGET_POS_HIGH = EXTEND_TARGET_POS_HIGH;
-    }
-    public void setArmPID(double p, double i, double d) {
-        armPID.setPID(p, i, d);
+
 
     }
-    public void startTimer() {
-        armTimer = new ElapsedTime();
-        extendTimer = new ElapsedTime();
-    }
+    public void setArmPID(double kP, double kI, double kD) {
+        armPID.setPID(kP, kI, kD);
 
-    /**
-     * Updates the target positions and powers for the arm and extension motors.
-     *
-     * @param right_stick_y The vertical position of the right joystick.
-     * @param left_stick_y  The vertical position of the left joystick.
-     * @return An ArmAndExtendPower object containing the calculated power values and target positions.
-     */
-    public ArmAndExtendPower update(float right_stick_y, float left_stick_y) {
+    }
+    public void setExtendPID(double kP, double kI, double kD) {
+        extendPID.setPID(kP, kI, kD);
+    }
+    public ArmAndExtendPower update(float right_stick_y, float left_stick_y, double armF, double extendF) {
         // Update extend target position
         extendTargetPos = Math.round(extendTargetPos - sensitivityExtendInit * right_stick_y);
         extendTargetPos = Math.min(extendTargetPos, EXTEND_TARGET_POS_HIGH); // Limit extend target position
@@ -95,11 +74,11 @@ public class ArmAndExtendControl {
         armTargetPos = Math.round(armTargetPos - sensitivityArmInit * scaleFactorArm * left_stick_y);
 
         // Calculate motor powers using PID controllers
-        double armPower = armPID.calculate(armTargetPos, arm.getCurrentPosition(), armTimer);
-        double extendPower = extendPID.calculate(extendTargetPos, extend.getCurrentPosition(), extendTimer);
-
+        double armPower = armPID.calculate( arm.getCurrentPosition(), armTargetPos);
+        double extendPower = extendPID.calculate( extend.getCurrentPosition(), extendTargetPos);
+        double armFf= Math.cos(Math.toRadians(armTargetPos/tick_in_degree))*armF;
         // Set motor powers
-        arm.setPower(armPower);
+        arm.setPower(armPower+armFf);
         extend.setPower(extendPower);
 
         // Return current state

@@ -5,21 +5,15 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.ArmAndExtendControl;
-import org.firstinspires.ftc.teamcode.hardware.ArmExtentontrol;
 import org.firstinspires.ftc.teamcode.hardware.FieldCentricDriveControl;
 import org.firstinspires.ftc.teamcode.hardware.WristAndIntakeControl;
 import org.firstinspires.ftc.teamcode.output.ArmAndExtendPower;
 import org.firstinspires.ftc.teamcode.output.DrivePower;
 import org.firstinspires.ftc.teamcode.output.WristAndIntakePower;
 
-/**
- * This is the main TeleOp OpMode for the robot.
- * It controls the robot's movements and actions based on gamepad input.
- */
 @Config
 @TeleOp
-public class MainTeleOp extends LinearOpMode {
-
+public class TestTelelop extends LinearOpMode {
     private FieldCentricDriveControl fieldCentricDrive;
     private WristAndIntakeControl wristAndIntake;
     private ArmAndExtendControl armAndExtend;
@@ -63,6 +57,7 @@ public class MainTeleOp extends LinearOpMode {
             double x = gamepad1.left_stick_x;
             double y = -gamepad1.left_stick_y; // Inverted y-axis for intuitive control
             double turn = gamepad1.right_stick_x;
+            armAndExtend.setArmPID(kPArm,kIArm,kDArm);
 
             // Calculate slow mode amount based on right trigger
             double slowAmount = (x != 0 || y != 0 || turn != 0)

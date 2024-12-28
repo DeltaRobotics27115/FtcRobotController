@@ -71,15 +71,15 @@ public class FieldCentricDRIVE extends LinearOpMode {
             }
             //slow mode
             if (gamepad1.right_trigger > 0.1 && leftFront > 0.1) {
-                slowAmount = 0.3;
+                slowAmount = 2;
             } else {
                 slowAmount = 0;
             }
             //run
-            frontLeft.setPower(leftFront - slowAmount);
-            frontRight.setPower(rightFront - slowAmount);
-            backLeft.setPower(leftBack - slowAmount);
-            backRight.setPower(rightBack - slowAmount);
+            frontLeft.setPower(leftFront / slowAmount);
+            frontRight.setPower(rightFront / slowAmount);
+            backLeft.setPower(leftBack / slowAmount);
+            backRight.setPower(rightBack / slowAmount);
         }
     }
 }

@@ -21,16 +21,25 @@ public class Autonomous extends LinearOpMode {
         ElapsedTime timer = new ElapsedTime();
         waitForStart();
         while (opModeIsActive()) {
+            //count time
+            double time = timer.milliseconds();
+            //Go forward until submersible
+            if (time > 0 && time < 500) {
+                leftFrontValue = 1;
+                leftBackValue = 1;
+                rightFrontValue = 1;
+                rightBackValue = 1;
+            }
+            //Go right until wall
+            //Go left a little bit
+            //*******DANIEL CODE THIS PART******
+            //Go forward a little
+            //Turn right then forward
+            //Strafe right
             frontLeft.setPower(leftFrontValue);
             backLeft.setPower(leftBackValue);
             frontRight.setPower(rightFrontValue);
             backRight.setPower(rightBackValue);
-            //Go forward until submersible
-            //Go right until wall
-            //Go left a little bit
-            //Go forward a little
-            //Turn right then forward
-            //Strafe right
         }
     }
 }

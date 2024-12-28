@@ -44,8 +44,21 @@ public class Autonomous extends LinearOpMode {
             }
             //*******DANIEL CODE THIS PART******
             //Go forward a little
+            if (time > 2500 && time < 3000) {
+                leftFrontValue = 1;
+                rightBackValue = 1;
+            }
             //Turn right then forward
+            if (time > 3000 && time < 3500) {
+                leftBackValue = 1;
+                rightBackValue = -1;
+            }
             //Strafe right
+            if (time > 3500 && time < 4000) {
+                rightFrontValue = -1;
+                leftBackValue = -1;
+                rightBackValue = 1;
+            }
             frontLeft.setPower(leftFrontValue);
             backLeft.setPower(leftBackValue);
             frontRight.setPower(rightFrontValue);

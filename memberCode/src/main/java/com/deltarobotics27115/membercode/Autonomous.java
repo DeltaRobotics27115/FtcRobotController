@@ -59,6 +59,27 @@ public class Autonomous extends LinearOpMode {
                 leftBackValue = -1;
                 rightBackValue = 1;
             }
+            //Strafe left
+            if (time > timex + 3500 && time < timex + 3600) {
+                rightFrontValue = 1;
+                leftBackValue = 1;
+                leftFrontValue = -1;
+                rightBackValue = -1;
+            }
+            //Turn around
+            if (time > timex + 3600 && time < timex + 3800) {
+                rightFrontValue = 1;
+                leftBackValue = -1;
+                leftFrontValue = -1;
+                rightBackValue = 1;
+            }
+            //Head to sample
+            if (time > timex + 3800 && time < timex + 4500) {
+                leftFrontValue = 1;
+                rightFrontValue = 1;
+                leftBackValue = 1;
+                rightBackValue = 1;
+            }
             frontLeft.setPower(leftFrontValue);
             backLeft.setPower(leftBackValue);
             frontRight.setPower(rightFrontValue);

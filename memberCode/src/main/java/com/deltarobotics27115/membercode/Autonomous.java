@@ -23,20 +23,21 @@ public class Autonomous extends LinearOpMode {
         while (opModeIsActive()) {
             //count time
             double time = timer.milliseconds();
+            double timex = 500;
             //Go forward until submersible
-            if (time > 0 && time < 500) {
+            if (time > 0 && time < timex) {
                 leftFrontValue = 1;
                 leftBackValue = 1;
                 rightFrontValue = 1;
                 rightBackValue = 1;
             }
             //Go right until wall
-            if (time > 500 && time < 2000) {
+            if (time > timex && time < timex + 1500) {
                 leftBackValue = -1;
                 rightFrontValue = -1;
             }
             //Go left a little bit
-            if (time > 2000 && time < 2500) {
+            if (time > timex + 1500 && time < timex + 2000) {
                 leftFrontValue = -1;
                 leftBackValue = 1;
                 rightFrontValue = 1;
@@ -44,17 +45,17 @@ public class Autonomous extends LinearOpMode {
             }
             //*******DANIEL CODE THIS PART******
             //Go forward a little
-            if (time > 2500 && time < 3000) {
+            if (time > timex + 2000 && time < timex + 2500) {
                 leftFrontValue = 1;
                 rightBackValue = 1;
             }
             //Turn right then forward
-            if (time > 3000 && time < 3500) {
+            if (time > timex + 2500 && time < timex + 3000) {
                 leftBackValue = 1;
                 rightBackValue = -1;
             }
             //Strafe right
-            if (time > 3500 && time < 4000) {
+            if (time > timex + 3000 && time < timex + 3500) {
                 rightFrontValue = -1;
                 leftBackValue = -1;
                 rightBackValue = 1;

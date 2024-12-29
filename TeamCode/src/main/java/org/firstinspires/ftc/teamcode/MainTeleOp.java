@@ -66,7 +66,7 @@ public class MainTeleOp extends LinearOpMode {
 
             // Calculate slow mode amount based on right trigger
             double slowAmount = (x != 0 || y != 0 || turn != 0)
-                    ? (gamepad1.right_trigger > SLOW_MODE_TRIGGER_THRESHOLD ? 0.3 : 0)
+                    ? (gamepad1.right_trigger > SLOW_MODE_TRIGGER_THRESHOLD ? 2 : 0)
                     : 0;
 
             // Drive the robot using field-centric control

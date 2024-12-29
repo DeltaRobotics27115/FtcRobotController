@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.output.WristAndIntakePower;
  */
 public class WristAndIntakeControl {
 
-    private static final double WRIST_INCREMENT = 0.05; // Define increment as a constant
+    private static final double WRIST_INCREMENT = 0.02; // Define increment as a constant
     private static final double TRIGGER_THRESHOLD = 0.2; // Define trigger threshold as a constant
 
     private final Servo wrist;

@@ -80,13 +80,13 @@ public class FieldCentricDriveControl {
         }
 
         // Apply slow mode and set motor powers
-        frontLeft.setPower(leftFront - slowAmount);
-        frontRight.setPower(rightFront - slowAmount);
-        backLeft.setPower(leftBack - slowAmount);
-        backRight.setPower(rightBack - slowAmount);
+        frontLeft.setPower(leftFront / slowAmount);
+        frontRight.setPower(rightFront / slowAmount);
+        backLeft.setPower(leftBack / slowAmount);
+        backRight.setPower(rightBack / slowAmount);
 
         // Return calculated motor powers
-        return new DrivePower(leftFront - slowAmount, rightFront - slowAmount, leftBack - slowAmount, rightBack - slowAmount);
+        return new DrivePower(leftFront / slowAmount, rightFront / slowAmount, leftBack / slowAmount, rightBack / slowAmount);
     }
 
     /**

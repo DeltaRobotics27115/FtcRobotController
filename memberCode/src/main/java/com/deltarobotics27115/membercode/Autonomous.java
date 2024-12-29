@@ -43,7 +43,6 @@ public class Autonomous extends LinearOpMode {
                 rightFrontValue = 1;
                 rightBackValue = -1;
             }
-            //*******DANIEL CODE THIS PART******
             //Go forward a little
             if (time > timex + 2000 && time < timex + 2500) {
                 leftFrontValue = 1;

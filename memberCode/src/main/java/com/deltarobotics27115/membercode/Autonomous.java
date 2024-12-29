@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Autonomous extends LinearOpMode {
     //find motors
-    public DcMotor frontLeft, frontRight, backLeft, backRight;
+    public DcMotor frontLeft, frontRight, backLeft, backRight, arm;
 
     @Override
     public void runOpMode() {
@@ -15,11 +15,13 @@ public class Autonomous extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotor.class, "FrontRight");
         backLeft = hardwareMap.get(DcMotor.class, "BackLeft");
         backRight = hardwareMap.get(DcMotor.class, "BackRight");
+        arm = hardwareMap.get(DcMotor.class, "Arm");
         //create variables for adjustment
         double leftFrontValue = 0, leftBackValue = 0, rightFrontValue = 0, rightBackValue = 0;
         //add timer
         ElapsedTime timer = new ElapsedTime();
         waitForStart();
+
         while (opModeIsActive()) {
             //count time
             double time = timer.milliseconds();

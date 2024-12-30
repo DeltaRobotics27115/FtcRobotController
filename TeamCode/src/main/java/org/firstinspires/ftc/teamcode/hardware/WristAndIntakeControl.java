@@ -44,8 +44,10 @@ public class WristAndIntakeControl {
         // Update wrist position based on triggers
         if (leftTrigger > TRIGGER_THRESHOLD) {
             wristPosition += WRIST_INCREMENT;
+            sleep(15)
         } else if (rightTrigger > TRIGGER_THRESHOLD) {
             wristPosition -= WRIST_INCREMENT;
+            sleep(15)
         }
         // Clamp wrist position to valid range
         wristPosition = Math.max(0.0, Math.min(1.0, wristPosition));

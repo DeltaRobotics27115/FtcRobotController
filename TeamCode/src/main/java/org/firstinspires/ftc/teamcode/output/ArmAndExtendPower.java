@@ -7,39 +7,29 @@ public class ArmAndExtendPower {
     /**
      * The power value for the arm motor.
      */
-    public double armPower;
+    public double armPower=0;
     /**
      * The power value for the extension motor.
      */
-    public double extendPower;
+    public double extendPower=0;
     /**
      * The target position for the arm.
      */
-    public double armTargetPos;
+    public double armTargetPos=0;
     /**
      * The target position for the extension.
      */
-    public double extendTargetPos;
-    /**
-     * The initial sensitivity for the arm.
-     */
-    public double sensitivityArmInit;
-    /**
-     * The initial sensitivity for the extension.
-     */
-    public double sensitivityExtendInit;
-    /**
-     * The scale factor for the arm.
-     */
-    public double scaleFactorArm;
+    public double extendTargetPos=0;
+
+
     /**
      * The current position of the arm.
      */
-    public int armPosition;
+    public int armPosition=0;
     /**
      * The current position of the extension.
      */
-    public int extendPosition;
+    public int extendPosition=0;
 
     /**
      * Creates a new ArmAndExtendPower object with the specified power values, target positions, sensitivities, scale factor, and current positions.
@@ -48,20 +38,15 @@ public class ArmAndExtendPower {
      * @param ep                The power value for the extension motor.
      * @param armTargetPos      The target position for the arm.
      * @param extendTargetPos  The target position for the extension.
-     * @param sensitivityArmInit The initial sensitivity for the arm.
-     * @param sensitivityExtendInit The initial sensitivity for the extension.
-     * @param scaleFactorArm    The scale factor for the arm.
      * @param armPosition       The current position of the arm.
      * @param extendPosition   The current position of the extension.
      */
-    public ArmAndExtendPower(double ap, double ep, double armTargetPos, double extendTargetPos, double sensitivityArmInit, double sensitivityExtendInit, double scaleFactorArm, int armPosition, int extendPosition) {
+    public ArmAndExtendPower(double ap, double ep, double armTargetPos, double extendTargetPos, int armPosition, int extendPosition) {
         this.armPower = ap;
         this.extendPower = ep;
         this.armTargetPos = armTargetPos;
         this.extendTargetPos = extendTargetPos;
-        this.sensitivityArmInit = sensitivityArmInit;
-        this.sensitivityExtendInit = sensitivityExtendInit;
-        this.scaleFactorArm = scaleFactorArm;
+
         this.armPosition = armPosition;
         this.extendPosition = extendPosition;
     }

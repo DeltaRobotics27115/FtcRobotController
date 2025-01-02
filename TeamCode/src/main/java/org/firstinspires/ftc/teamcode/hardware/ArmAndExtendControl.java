@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -15,24 +16,23 @@ import org.firstinspires.ftc.teamcode.output.ArmAndExtendPower;
 public class ArmAndExtendControl {
 
     private PIDController armPID;
-    private PIDController extendPID;
+    private  PIDController extendPID;
 
     private final DcMotorEx arm;
     private final DcMotorEx extend;
 
-    private ElapsedTime armTimer;
-    private ElapsedTime extendTimer;// Shared timer for both arm and extend
-
     public double armTargetPos = 0;
     public double extendTargetPos = 0;
-    public double scaleFactorArm = 1.0;
 
-    public double sensitivityExtendInit = 20.0;
-    private final double maxTargetExtend = 5000; // Pre-calculate constant
-    public double sensitivityArmInit = 20.0;
-    public double ARM_TARGET_POS_HIGH;
 
-    public double EXTEND_TARGET_POS_HIGH;
+    private  double initArmPosition=0;
+    private double initExtendPosition=0;
+
+
+    private  double maxArmPosition = 3000;
+
+    private double maxExtendPosition =2050;
+
 
 
     /**
@@ -58,22 +58,21 @@ public class ArmAndExtendControl {
 
         // Initialize PID controllers with pre-defined constants
         armPID = new PIDController(0.01, 0.0, 0);
-        extendPID = new PIDController(0.02, 0.00, 0);
+        extendPID = new PIDController(0.01, 0.0, 0);
 
 
     }
-    public void init(double ARM_TARGET_POS_HIGH, double EXTEND_TARGET_POS_HIGH) {
-
-        this.ARM_TARGET_POS_HIGH = ARM_TARGET_POS_HIGH;
-        this.EXTEND_TARGET_POS_HIGH = EXTEND_TARGET_POS_HIGH;
+    public void setExtendMaxPosition(double position){
+        maxExtendPosition=position;
+    }
+    public void setArmMaxPosition(double position){
+        this.maxArmPosition=position;
     }
     public void setArmPID(double p, double i, double d) {
-        armPID.setPID(p, i, d);
-
+        armPID.setPID(p,i,d);
     }
-    public void startTimer() {
-        armTimer = new ElapsedTime();
-        extendTimer = new ElapsedTime();
+    public void setExtendPID(double p, double i, double d) {
+        extendPID.setPID(p,i,d);
     }
 
     /**
@@ -83,28 +82,96 @@ public class ArmAndExtendControl {
      * @param left_stick_y  The vertical position of the left joystick.
      * @return An ArmAndExtendPower object containing the calculated power values and target positions.
      */
-    public ArmAndExtendPower update(float right_stick_y, float left_stick_y) {
-        // Update extend target position
-        extendTargetPos = Math.round(extendTargetPos - sensitivityExtendInit * right_stick_y);
-        extendTargetPos = Math.min(extendTargetPos, EXTEND_TARGET_POS_HIGH); // Limit extend target position
+    public ArmAndExtendPower update(float right_stick_y, float left_stick_y,double perDistcnce) {
+        // change power of arm and extend
+        if(left_stick_y!=0){
+            armTargetPos=arm.getCurrentPosition()+left_stick_y*perDistcnce;
+            armTargetPos=clamp(armTargetPos,this.initArmPosition,maxArmPosition);
 
-        // Calculate arm sensitivity scale factor
-        scaleFactorArm = 1 - (Math.abs(extendTargetPos) / maxTargetExtend);
+        }
 
-        // Update arm target position
-        armTargetPos = Math.round(armTargetPos - sensitivityArmInit * scaleFactorArm * left_stick_y);
 
-        // Calculate motor powers using PID controllers
-        double armPower = armPID.calculate(armTargetPos, arm.getCurrentPosition(), armTimer);
-        double extendPower = extendPID.calculate(extendTargetPos, extend.getCurrentPosition(), extendTimer);
+        if(right_stick_y!=0){
+            extendTargetPos=extend.getCurrentPosition()+right_stick_y*perDistcnce;
+            extendTargetPos=clamp(extendTargetPos,this.initExtendPosition,maxExtendPosition);
 
-        // Set motor powers
+        }
+
+
+        double pidArm=armPID.calculate(arm.getCurrentPosition(),armTargetPos);
+        //double ff=Math.cos(Math.toRadians(armTargetPos/tick_in_degree))*f;
+        double pidExtend=extendPID.calculate(extend.getCurrentPosition(),extendTargetPos);
+        arm.setPower(pidArm);
+        extend.setPower(pidExtend);
+
+
+        // Return current state
+        return new ArmAndExtendPower(pidArm, pidExtend, armTargetPos, extendTargetPos,
+
+                arm.getCurrentPosition(), extend.getCurrentPosition());
+    }
+    public static double clamp(double val, double min, double max) {
+        return Math.max(min, Math.min(max, val));
+    }
+    public void initPosition(){
+            this.initArmPosition=arm.getCurrentPosition();
+        this.initExtendPosition=extend.getCurrentPosition();
+    }
+    public void setToStartPosition(){
+        double tarP=this.initArmPosition+800;
+        double armPower = armPID.calculate(arm.getCurrentPosition(),tarP);
+            arm.setPower(armPower);
+    }
+    public void setArmDown(){
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+    public ArmAndExtendPower toCatchPosition() {
+        double armPower = armPID.calculate(arm.getCurrentPosition(),this.initArmPosition);
+        double extendPower = extendPID.calculate(extend.getCurrentPosition(),maxExtendPosition);
+
+        arm.setPower(armPower);
+        extend.setPower(extendPower);
+        return new ArmAndExtendPower(armPower, extendPower, armTargetPos, extendTargetPos,
+
+                arm.getCurrentPosition(), extend.getCurrentPosition());
+    }
+    public double getArmPosition(){
+        return arm.getCurrentPosition();
+    }
+
+    public double getExtendPosition(){
+        return extend.getCurrentPosition();
+    }
+    public ArmAndExtendPower toMovePosition() {
+        double armPower = armPID.calculate( arm.getCurrentPosition(),initArmPosition);
+
+
+        double extendPower = extendPID.calculate(extend.getCurrentPosition(),initExtendPosition);
+        armPower = arm.isOverCurrent() ? 0 : armPower;
+        extendPower = extend.isOverCurrent() ? 0 : extendPower;
         arm.setPower(armPower);
         extend.setPower(extendPower);
 
-        // Return current state
         return new ArmAndExtendPower(armPower, extendPower, armTargetPos, extendTargetPos,
-                sensitivityArmInit, sensitivityExtendInit, scaleFactorArm,
+
+                arm.getCurrentPosition(), extend.getCurrentPosition());
+    }
+    public ArmAndExtendPower toShootPosition(double armShootPosition,double extendShootPosition) {
+        // Cache current arm position
+        double currentArmPosition = arm.getCurrentPosition();
+
+        double armPower = armPID.calculate(currentArmPosition, armShootPosition);
+        double extendPower = extendPID.calculate(extend.getCurrentPosition(), extendShootPosition);
+
+        arm.setPower(armPower);
+
+        // Simplified conditional check: If arm is within 180 of the target
+        if (Math.abs(armShootPosition - currentArmPosition) <= armShootPosition/10) {
+            extend.setPower(extendPower);
+        }
+
+        return new ArmAndExtendPower(armPower, extendPower, armTargetPos, extendTargetPos,
                 arm.getCurrentPosition(), extend.getCurrentPosition());
     }
 }

@@ -7,20 +7,19 @@ public class WristAndIntakePower {
     /**
      * The power level for the wrist servo (typically between 0.0 and 1.0).
      */
-    public double wristPower;
+    public double wristPosition;
     /**
      * The power level for the intake motor (typically between -1.0 and 1.0).
      */
     public double intakePower;
+    public double currentWristPosition;
 
-    /**
-     * Constructor for the WristAndIntakePower class.
-     *
-     * @param wrist  The power level for the wrist servo.
-     * @param intake The power level for the intake motor.
-     */
-    public WristAndIntakePower(double wrist, double intake) {
-        wristPower = wrist;
+
+
+    public WristAndIntakePower(double wristPosition, double intake, double currentWiristPosition) {
+        wristPosition = wristPosition;
         intakePower = intake;
+        currentWristPosition = currentWiristPosition;
+
     }
 }

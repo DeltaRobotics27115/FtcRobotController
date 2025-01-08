@@ -150,8 +150,13 @@ public class ArmAndExtendControl {
         double extendPower = extendPID.calculate(extend.getCurrentPosition(),initExtendPosition);
         armPower = arm.isOverCurrent() ? 0 : armPower;
         extendPower = extend.isOverCurrent() ? 0 : extendPower;
-        arm.setPower(armPower);
+        double ff=Math.abs(extend.getCurrentPosition()-initExtendPosition);
         extend.setPower(extendPower);
+        if(ff<100) {
+
+            arm.setPower(armPower);
+        }
+
 
         return new ArmAndExtendPower(armPower, extendPower, armTargetPos, extendTargetPos,
 
@@ -173,5 +178,9 @@ public class ArmAndExtendControl {
 
         return new ArmAndExtendPower(armPower, extendPower, armTargetPos, extendTargetPos,
                 arm.getCurrentPosition(), extend.getCurrentPosition());
+    }
+    public void setArmPosition(double position){
+        double armPower = armPID.calculate(arm.getCurrentPosition(),position);
+        arm.setPower(armPower);
     }
 }

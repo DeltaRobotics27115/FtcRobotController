@@ -30,6 +30,7 @@ public class WristAndIntakeControl {
         wrist = hardwareMap.get(Servo.class, "Wrist");
         intake = hardwareMap.get(CRServo.class, "Intake");
         wrist.setDirection(Servo.Direction.REVERSE);
+        //wrist.setPosition(0.5);
     }
     public void setWristIncrement(double increment){
         this.WRIST_INCREMENT=increment;

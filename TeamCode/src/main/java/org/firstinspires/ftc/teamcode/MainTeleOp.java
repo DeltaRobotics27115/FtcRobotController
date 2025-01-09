@@ -32,10 +32,11 @@ public class MainTeleOp extends LinearOpMode {
     public static double kIextend=0.00;
     public static double kDextend=0.0;
     public static double extendCatchPosition=2050;
-    public static double armMaxPosition=3000;
+    public static double armMaxPosition=4000;
     public static double slowMode=0.5;
-    public  static  double armShootPosition=1700;
+    public  static  double armShootPosition=2200;
     public  static  double extendShootPosition=2050;
+
 
     private FieldCentricDriveControl fieldCentricDrive;
     private WristAndIntakeControl wristAndIntake;
@@ -70,7 +71,7 @@ public class MainTeleOp extends LinearOpMode {
 
         armAndExtend.initPosition();
         fieldCentricDrive.resetImu();
-        wristAndIntake.setWristPosition(0.5);
+        //wristAndIntake.setWristPosition(0);
         sweeper.setPosition(0);
 
         // Main loop

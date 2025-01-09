@@ -63,7 +63,7 @@ public class ArmAndExtendControl {
 
     }
     public void setExtendMaxPosition(double position){
-        maxExtendPosition=position;
+        this.maxExtendPosition=position;
     }
     public void setArmMaxPosition(double position){
         this.maxArmPosition=position;
@@ -74,6 +74,7 @@ public class ArmAndExtendControl {
     public void setExtendPID(double p, double i, double d) {
         extendPID.setPID(p,i,d);
     }
+
 
     /**
      * Updates the target positions and powers for the arm and extension motors.

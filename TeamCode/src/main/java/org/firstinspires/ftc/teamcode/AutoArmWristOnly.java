@@ -5,18 +5,14 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.ArmAndExtendControl;
-import org.firstinspires.ftc.teamcode.hardware.FieldCentricDriveControl;
 import org.firstinspires.ftc.teamcode.hardware.WristAndIntakeControl;
-import org.firstinspires.ftc.teamcode.output.ArmAndExtendPower;
-import org.firstinspires.ftc.teamcode.util.ArmAndExtendState;
 
 @Config
 @Autonomous
-public class Phase0Auto extends LinearOpMode {
+public class AutoArmWristOnly extends LinearOpMode {
     public static double kP=0.01;
     public static double kI=0.00;
     public static double kD=0.0;

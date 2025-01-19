@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.output.DrivePosition;
 import org.firstinspires.ftc.teamcode.output.DrivePower;
 
 /**
@@ -78,17 +79,45 @@ public class FieldCentricDriveControl {
             leftBack /= maxPower;
             rightBack /= maxPower;
         }
+        // Apply slow mode correctly
+        leftFront = applySlowMode(leftFront, slowAmount);
+        rightFront = applySlowMode(rightFront, slowAmount);
+        leftBack = applySlowMode(leftBack, slowAmount);
+        rightBack = applySlowMode(rightBack, slowAmount);
 
         // Apply slow mode and set motor powers
-        frontLeft.setPower(leftFront - slowAmount);
-        frontRight.setPower(rightFront - slowAmount);
-        backLeft.setPower(leftBack - slowAmount);
-        backRight.setPower(rightBack - slowAmount);
+        frontLeft.setPower(leftFront);
+        frontRight.setPower(rightFront);
+        backLeft.setPower(leftBack);
+        backRight.setPower(rightBack);
 
         // Return calculated motor powers
         return new DrivePower(leftFront - slowAmount, rightFront - slowAmount, leftBack - slowAmount, rightBack - slowAmount);
     }
+    public double getHeading() {
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+    }
+    public DrivePosition getPosition() {
+        return new DrivePosition(
+        frontLeft.getCurrentPosition(),
+        frontRight.getCurrentPosition(),
+        backLeft.getCurrentPosition(),
+        backRight.getCurrentPosition());
 
+
+    }
+
+    private double applySlowMode(double power, double slowAmount) {
+        if(slowAmount!=0){
+            if (power > 0) {
+                return Math.max(0, power * slowAmount); // Don't go below 0
+            } else if (power < 0) {
+                return Math.min(0, power * slowAmount); // Don't go above 0
+            } else {
+                return 0; // Already 0, stay at 0
+            }
+        }else{return power;}
+    }
     /**
      * Resets the IMU's yaw angle to zero.
      */

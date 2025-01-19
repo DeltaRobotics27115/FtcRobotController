@@ -11,13 +11,13 @@ import org.firstinspires.ftc.teamcode.output.WristAndIntakePower;
  */
 public class WristAndIntakeControl {
 
-    private static final double WRIST_INCREMENT = 0.05; // Define increment as a constant
+    private   double WRIST_INCREMENT = 0.02; // Define increment as a constant
     private static final double TRIGGER_THRESHOLD = 0.2; // Define trigger threshold as a constant
 
     private final Servo wrist;
     private final CRServo intake;
 
-    private double wristPosition = 0.5;
+    private double wristPosition = 0;
     private double intakePower = 0; // Store intake power directly
 
     /**
@@ -29,8 +29,12 @@ public class WristAndIntakeControl {
     public WristAndIntakeControl(HardwareMap hardwareMap) {
         wrist = hardwareMap.get(Servo.class, "Wrist");
         intake = hardwareMap.get(CRServo.class, "Intake");
+        wrist.setDirection(Servo.Direction.REVERSE);
+        //wrist.setPosition(0.5);
     }
-
+    public void setWristIncrement(double increment){
+        this.WRIST_INCREMENT=increment;
+    }
     /**
      * Updates the wrist and intake positions based on gamepad input.
      *
@@ -47,8 +51,6 @@ public class WristAndIntakeControl {
         } else if (rightTrigger > TRIGGER_THRESHOLD) {
             wristPosition -= WRIST_INCREMENT;
         }
-        // Clamp wrist position to valid range
-        wristPosition = Math.max(0.0, Math.min(1.0, wristPosition));
         wrist.setPosition(wristPosition);
 
         // Update intake power based on bumpers
@@ -61,7 +63,15 @@ public class WristAndIntakeControl {
         }
         intake.setPower(intakePower);
 
+
         // Return current state
-        return new WristAndIntakePower(wristPosition, intakePower);
+        return new WristAndIntakePower(wristPosition, intakePower,wrist.getPosition());
+    }
+    public double getWristPosition() {
+        return wrist.getPosition();
+    }
+
+    public void setWristPosition(double wristPosition) {
+        wrist.setPosition(wristPosition);
     }
 }

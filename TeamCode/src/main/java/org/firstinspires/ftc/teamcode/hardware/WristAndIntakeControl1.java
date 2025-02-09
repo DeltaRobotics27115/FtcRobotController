@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.output.WristAndIntakePower;
 /**
  * This class controls the wrist and intake mechanisms of the robot.
  */
-public class WristAndIntakeControl {
+public class WristAndIntakeControl1 {
 
     private   double WRIST_INCREMENT = 0.02; // Define increment as a constant
     private static final double TRIGGER_THRESHOLD = 0.2; // Define trigger threshold as a constant
@@ -18,7 +18,7 @@ public class WristAndIntakeControl {
     private final Servo intake;
 
     private double wristPosition = 0;
-    private double intakePosition = 0; // Store intake power directly
+    private double intakePower = 0; // Store intake power directly
 
     /**
      * Constructor for WristAndIntakeControl.
@@ -26,7 +26,7 @@ public class WristAndIntakeControl {
      *
      * @param hardwareMap The hardware map to access the wrist and intake.
      */
-    public WristAndIntakeControl(HardwareMap hardwareMap) {
+    public WristAndIntakeControl1(HardwareMap hardwareMap) {
         wrist = hardwareMap.get(Servo.class, "Wrist");
         intake = hardwareMap.get(Servo.class, "Intake");
         wrist.setDirection(Servo.Direction.REVERSE);
@@ -53,17 +53,11 @@ public class WristAndIntakeControl {
         }
         wrist.setPosition(wristPosition);
 
-        // Update intake power based on bumpers
-        if (leftBumper) {
-            intakePosition = 0.5;
-        } else if (rightBumper) {
-            intakePosition = -1;
-        }
-        intake.setPosition(intakePosition);
+
 
 
         // Return current state
-        return new WristAndIntakePower(wristPosition, intakePosition,wrist.getPosition());
+        return new WristAndIntakePower(wristPosition, intakePower,wrist.getPosition());
     }
     public double getWristPosition() {
         return wrist.getPosition();

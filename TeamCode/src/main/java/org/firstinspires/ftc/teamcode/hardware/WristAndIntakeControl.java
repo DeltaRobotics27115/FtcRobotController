@@ -15,10 +15,10 @@ public class WristAndIntakeControl {
     private static final double TRIGGER_THRESHOLD = 0.2; // Define trigger threshold as a constant
 
     private final Servo wrist;
-    private final CRServo intake;
+    private final Servo intake;
 
     private double wristPosition = 0;
-    private double intakePower = 0; // Store intake power directly
+    private double intakePosition = 0; // Store intake power directly
 
     /**
      * Constructor for WristAndIntakeControl.
@@ -28,7 +28,7 @@ public class WristAndIntakeControl {
      */
     public WristAndIntakeControl(HardwareMap hardwareMap) {
         wrist = hardwareMap.get(Servo.class, "Wrist");
-        intake = hardwareMap.get(CRServo.class, "Intake");
+        intake = hardwareMap.get(Servo.class, "Intake");
         wrist.setDirection(Servo.Direction.REVERSE);
         //wrist.setPosition(0.5);
     }
@@ -55,17 +55,15 @@ public class WristAndIntakeControl {
 
         // Update intake power based on bumpers
         if (leftBumper) {
-            intakePower = 1;
+            intakePosition = 0.5;
         } else if (rightBumper) {
-            intakePower = -1;
-        } else {
-            intakePower = 0; // Stop intake if no bumpers are pressed
+            intakePosition = -1;
         }
-        intake.setPower(intakePower);
+        intake.setPosition(intakePosition);
 
 
         // Return current state
-        return new WristAndIntakePower(wristPosition, intakePower,wrist.getPosition());
+        return new WristAndIntakePower(wristPosition, intakePosition,wrist.getPosition());
     }
     public double getWristPosition() {
         return wrist.getPosition();

@@ -166,6 +166,45 @@ public class AutoBoth extends LinearOpMode {
                 rightFrontValue = 0;
                 rightBackValue = 0;
             }
+            //Go forward
+            if (time > 10700 && time < 12700) {
+                leftFrontValue = 0.5;
+                leftBackValue = 0.5;
+                rightFrontValue = 0.5;
+                rightBackValue = 0.5;
+            }
+            if (time > 12700 && time < 12800) {
+                leftFrontValue = 0;
+                leftBackValue = 0;
+                rightFrontValue = 0;
+                rightBackValue = 0;
+            }
+            //Strafe right
+            if (time > 12800 && time < 13000) {
+                leftFrontValue = 0.5;
+                rightFrontValue = -0.5;
+                leftBackValue = -0.5;
+                rightBackValue = 0.5;
+            }
+            if (time > 13000 && time < 13100) {
+                leftFrontValue = 0;
+                leftBackValue = 0;
+                rightFrontValue = 0;
+                rightBackValue = 0;
+            }
+            //Go backward
+            if (time > 13100 && time < 14900) {
+                leftFrontValue = -0.5;
+                rightFrontValue = -0.5;
+                leftBackValue = -0.5;
+                rightBackValue = -0.5;
+            }
+            if (time > 14900 && time < 15000) {
+                leftFrontValue = 0;
+                leftBackValue = 0;
+                rightFrontValue = 0;
+                rightBackValue = 0;
+            }
             frontLeft.setPower(leftFrontValue);
             backLeft.setPower(leftBackValue);
             frontRight.setPower(rightFrontValue);

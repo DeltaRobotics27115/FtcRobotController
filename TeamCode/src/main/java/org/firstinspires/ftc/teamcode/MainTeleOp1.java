@@ -28,6 +28,8 @@ public class MainTeleOp1 extends LinearOpMode {
     public static double kP=0.01;
     public static double kI=0.00;
     public static double kD=0.0;
+    public static double intakeClosePosition=1;
+    public static double intakeOpenPosition=0.8;
     public static double kPextend=0.01;
     public static double kIextend=0.00;
     public static double kDextend=0.0;
@@ -76,6 +78,7 @@ public class MainTeleOp1 extends LinearOpMode {
 
         // Main loop
         while (opModeIsActive()) {
+            wristAndIntake.setIntakePosition(intakeClosePosition,intakeOpenPosition);
             armAndExtend.setExtendMaxPosition(extendCatchPosition);
             armAndExtend.setArmMaxPosition(armMaxPosition);
             armAndExtend.setArmPID(kP,kI,kD);

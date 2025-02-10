@@ -20,6 +20,8 @@ public class WristAndIntakeControl1 {
     private double wristPosition = 0;
     private double intakePower = 0; // Store intake power directly
     private double intakePosition = 0;
+    private double intakeClosePosition = 0;
+    private double intakeOpenPosition = 0;
 
     /**
      * Constructor for WristAndIntakeControl.
@@ -55,14 +57,19 @@ public class WristAndIntakeControl1 {
         wrist.setPosition(wristPosition);
 
         if (leftBumper) {
-            intakePosition = 0.5;
+            intakePosition =intakeClosePosition ;
         } else if (rightBumper) {
-            intakePosition = -0.5;
+            intakePosition = intakeOpenPosition;
         }
         intake.setPosition(intakePosition);
 
         // Return current state
         return new WristAndIntakePower(wristPosition, intakePower,wrist.getPosition());
+    }
+    public void setIntakePosition(double intakeClosePosition,double intakeOpenPosition){
+
+        this.intakeClosePosition=intakeClosePosition;
+        this.intakeOpenPosition=intakeOpenPosition;
     }
     public double getWristPosition() {
         return wrist.getPosition();

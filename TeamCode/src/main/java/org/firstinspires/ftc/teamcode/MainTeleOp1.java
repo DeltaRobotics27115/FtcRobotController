@@ -28,12 +28,13 @@ public class MainTeleOp1 extends LinearOpMode {
     public static double kP=0.01;
     public static double kI=0.00;
     public static double kD=0.0;
-    public static double intakeClosePosition=1;
+    public static double intakeClosePosition=0.5
+            ;
     public static double intakeOpenPosition=0.8;
     public static double kPextend=0.01;
     public static double kIextend=0.00;
     public static double kDextend=0.0;
-    public static double extendCatchPosition=1800;
+    public static double extendCatchPosition=1400;
     public static double armMaxPosition=4000;
     public static double slowMode=0.5;
     public  static  double armShootPosition=2200;

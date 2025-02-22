@@ -141,26 +141,26 @@ public class AutoBoth extends LinearOpMode {
                 rightBackValue = 0;
             }
             //Strafe right
-            if (time > 8300 && time < 8700) {
+            if (time > 8300 && time < 9000) {
                 leftFrontValue = 0.5;
                 rightFrontValue = -0.5;
                 leftBackValue = -0.5;
                 rightBackValue = 0.5;
             }
-            if (time > 8700 && time < 8800) {
+            if (time > 9000 && time < 9100) {
                 leftFrontValue = 0;
                 leftBackValue = 0;
                 rightFrontValue = 0;
                 rightBackValue = 0;
             }
             //Go backward
-            if (time > 8800 && time < 10600) {
+            if (time > 9100 && time < 10900) {
                 leftFrontValue = -0.5;
                 rightFrontValue = -0.5;
                 leftBackValue = -0.5;
                 rightBackValue = -0.5;
             }
-            if (time > 10600 && time < 10700) {
+            if (time > 10900 && time < 11000) {
                 leftFrontValue = 0;
                 leftBackValue = 0;
                 rightFrontValue = 0;
